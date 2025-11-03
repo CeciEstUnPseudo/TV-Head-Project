@@ -12,7 +12,5 @@ Oh, and side-note, I probably won't commit every little change to this repositor
 
 I don't use GitHub enough to know if there's a way to message people, but if you'd like to ask me your questions regarding the project, feel free to contact me on GitHub (if that's even possible) or via Instagram at @emile_litalien. 
 
-Last README update - 2025-11-02 23h26 (EST/EDT)
-
 
 
