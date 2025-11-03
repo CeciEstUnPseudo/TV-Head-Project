@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Inclure scripts -->
+<script src="menu-burger.js"></script>
+<script src="selection-boutons.js"></script>
+
+<head>
+  <title>Serveur Prototype TV Head</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+
+  <!-- Inclure styles -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="boutons.css" />
+</head>
+
+<body>
+  <h1>Serveur Prototype TV Head</h1>
+  <h3 id="etat-led"></h3>
+
+  <!-- Menu burger qui permet de changer la section "Mode" qui est visible -->
+  <div id="MenuBurgerIcon"></div>
+  <nav id="MenuBurger">
+    <ul id="MenuListe">
+      <li>
+        <a href="#ModeImagesManuel" title="Images (manuel)">
+          <span class="menu-icon"><img src="images/icon_manuel.svg" alt="Images" class="menu-icon-img"></span>
+          <span class="menu-label">Images</span>
+        </a>
+      </li>
+      <li>
+        <a href="#ModeFaceGyro" title="Face Gyro">
+          <span class="menu-icon"><img src="images/icon_gyro.svg" alt="Face Gyro" class="menu-icon-img"></span>
+          <span class="menu-label">Face Gyro</span>
+        </a>
+      </li>
+      <li>
+        <a href="#ModeMicro" title="Microphone">
+          <span class="menu-icon"><img src="images/icon_mic.svg" alt="Microphone" class="menu-icon-img"></span>
+          <span class="menu-label">Micro</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <section id="ModeImagesManuel" class="Mode">
+      <h3>MODE IMAGES MANUEL</h3>
+      <section id="section" class="section_fixes" data="section_fixes">
+      <a id="BoutonContainer" href="/boutonOff"><button id="Bouton" data="fixe_Vide">Off</button></a>
+      <a id="BoutonContainer" href="/boutonCanard"><button id="Bouton" data="fixe_Canard">Canard</button></a>
+      <a id="BoutonContainer" href="/boutonPapillon"><button id="Bouton" data="fixe_Papillon">Papillon</button></a>
+      <a id="BoutonContainer" href="/boutonThumbsUp"><button id="Bouton" data="fixe_ThumbsUp">Thumbs up</button></a>
+      <a id="BoutonContainer" href="/boutonThumbsUpCoeur"><button id="Bouton" data="fixe_ThumbsUpWithHeart">Thumbs up + Coeur</button></a>
+      <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="fixe_PLACEHOLDER">PLACEHOLDER</button></a>
+      </section>
+
+      <section id="section" class="section_anims" data="section_anims">
+          <a id="BoutonContainer" href="/boutonChargement"><button id="Bouton" data="anim_chargement">Chargement</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+
+      </section>
+
+      <section id="section" class="section_gifs" data="section_gifs">
+          <a id="BoutonContainer" href="/boutonChargementInfini"><button id="Bouton" data="gif_chargement">Chargement infini</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+      </section>
+  </section>
+
+  <section id="ModeFaceGyro" class="Mode">
+      <h3>MODE FACE GYRO</h3>
+      <section id="section" class="section_fixes" data="section_fixes">
+      <a id="BoutonContainer" href="/boutonOff"><button id="Bouton" data="fixe_Vide">Off</button></a>
+      <a id="BoutonContainer" href="/boutonCanard"><button id="Bouton" data="fixe_Canard">Canard</button></a>
+      <a id="BoutonContainer" href="/boutonPapillon"><button id="Bouton" data="fixe_Papillon">Papillon</button></a>
+      <a id="BoutonContainer" href="/boutonThumbsUp"><button id="Bouton" data="fixe_ThumbsUp">Thumbs up</button></a>
+      <a id="BoutonContainer" href="/boutonThumbsUpCoeur"><button id="Bouton" data="fixe_ThumbsUpWithHeart">Thumbs up + Coeur</button></a>
+      <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="fixe_PLACEHOLDER">PLACEHOLDER</button></a>
+      </section>
+
+      <section id="section" class="section_anims" data="section_anims">
+          <a id="BoutonContainer" href="/boutonChargement"><button id="Bouton" data="anim_chargement">Chargement</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="anim_PLACEHOLDER">PLACEHOLDER</button></a>
+
+      </section>
+
+      <section id="section" class="section_gifs" data="section_gifs">
+          <a id="BoutonContainer" href="/boutonChargementInfini"><button id="Bouton" data="gif_chargement">Chargement infini</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+          <a id="BoutonContainer" href="/boutonPLACEHOLDER"><button id="Bouton" data="gif_PLACEHOLDER">PLACEHOLDER</button></a>
+      </section>
+  </section>
+
+</body>
+
+</html>

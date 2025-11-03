@@ -1,0 +1,33 @@
+#BoutonContainer {
+  text-decoration: none;
+  width: 8rem;
+  height:8rem;
+  margin: 1%;
+}
+
+#Bouton {
+  width: 100%;
+  height:100%;
+
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 2px auto;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+#Bouton:hover {
+  background-color: black;
+    color: white;
+}
+
+.inactif{
+  background-color: white;
+  color: black;
+}
+.actif {
+  background-color: green;
+  color: white;
+}
