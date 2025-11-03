@@ -6,7 +6,9 @@ This project serves three purposes. Firstly, and the more "societaly important" 
 
 The fourth secret purpose is to be able to eventually do the electronics parts of my partner's cosplays... might as well make those newly acquired skills useful to others, no? 
 
-Oh, and side-note, I probably won't commit every little change to GitHub. It might be irregularly scheduled big steps composed of a lot of different things. Since I started this project before actually having to do reports (for school), I'm commiting when I think about it, and that might not be as often as it could.
+Everything is coded in half-english, half-french. Why? Tokébakicitte! I'm from Québec, and speak & write both in English and French. That includes my code. 
+
+Oh, and side-note, I probably won't commit every little change to this repository. It might be irregularly scheduled big steps composed of a lot of different things. Since I started this project before actually having to do reports (for school), I'm commiting when I think about it, and that might not be as often as it could. I'll try to keep the code as commented as possible & the commit messages as useful as possible.
 
 I don't use GitHub enough to know if there's a way to message people, but if you'd like to ask me your questions regarding the project, feel free to contact me on GitHub (if that's even possible) or via Instagram at @emile_litalien. 
 
