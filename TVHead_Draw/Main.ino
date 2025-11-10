@@ -13,7 +13,7 @@ void startupLEDs();
 
 
 // Data Pin Microprocesseur
-const int pinData = 22;
+const int pinData = 13;
 
 // Info de la matrice
 const int matrixLength = 17;
@@ -24,6 +24,9 @@ CRGB maMatrixLEDs[nbLEDTotal]; // Tableau 1D pour FastLED
 
 // Externes
 extern void animationTick();
+extern void gyroSetup();
+extern void modeGyro();
+extern void gyroDetection();
 
 
 //Hotspot telephone
@@ -37,16 +40,24 @@ void setup(){
   // Console
   Serial.begin(115200);
   //
-  
+
+  // Gyro stuff done in Gyro_Tilting.ino
+  gyroSetup();
+
   //startupLEDs(); // On setup les LEDs 
   startupServeur(); // On start le serveur
 
   FastLED.addLeds<WS2812B, pinData,GRB>(maMatrixLEDs, nbLEDTotal);
   FastLED.setBrightness(10);
+
+  modeGyro(); // PLACEHOLDER DU MODE DE BASE -- Right now testing the Gyro mode
 }
 
   void loop() {
   tempsPasseeMillis = millis();
   animationTick();
+  // Gyro stuff done in Gyro_Tilting.ino
+  gyroDetection();
+
   
   }

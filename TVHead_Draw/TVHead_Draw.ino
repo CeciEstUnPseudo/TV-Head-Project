@@ -44,9 +44,9 @@
     // FastLED.show(); // Utiliser show après un dessin
   }
 
-  //////////////////////////////////////////////////////////////////
-  /////////////////////// FONCTIONS DE DESSIN  /////////////////////
-  //////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  /////////////////////// FONCTIONS DE DESSIN -- MODE MANUEL /////////////////////
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv //
 
 
   // Bouton off 
@@ -57,15 +57,14 @@
   }
 
   // Fonction de dessin (called par boutons, prends d'un CSV)
-
     void dessin(String nomDessin){
         dernierDessinVoulu = nomDessin;
       
       // nomDessin = le dessin à faire
       Serial.println("Dessin de " + nomDessin + " | " + millis());
 
-  // Aller chercher le bon .csv dans SPIFFS (dossier data/csv)
-  File fichierDessin = SPIFFS.open("/csv/" + nomDessin + ".csv", "r");
+      // Aller chercher le bon .csv dans SPIFFS (dossier data/csv)
+      File fichierDessin = SPIFFS.open("/csv/" + nomDessin + ".csv", "r");
       if(!fichierDessin){ // En gros si le fichierDessin n'existe pas
         return;
       }
@@ -83,7 +82,7 @@
       
       fichierDessin.close(); // Fermer le fichier après l'avoir lu
 
-      Serial.println("Fin de l'assemblage du tableau de couleurs, on va appliquer les couleurs: " + nomDessin + " | " + millis());
+      // Serial.println("Fin de l'assemblage du tableau de couleurs, on va appliquer les couleurs: " + nomDessin + " | " + millis());
 
       // Parcourir les LEDs et leur donner la couleur demandée qui vient du tableau créé avec les segments du .csv
       for (int i = 0; i < nbLEDTotal; i++) { // Pour chaque LED aka la taille de maMatrixLEDs et la taille de couleurs
@@ -94,12 +93,12 @@
           int x = i % matrixLength;  // Colonne // Info 2/3 pour colorier un pixel
 
           CRGB couleurCRGB = stringToCRGB(couleurs[i]); // Convertir la couleur de string à CRGB // Info 3/3 pour colorier un pixel
-                  setLEDColor(y, x, couleurCRGB); // Appliquer couleur sur le pixel
+          setLEDColor(y, x, couleurCRGB); // Appliquer couleur sur le pixel
           
         }
       }
       if (nomDessin == dernierDessinVoulu){
-        Serial.println("Fin des setLEDColor du dessin + dernier dessin voulu, on affiche: " + nomDessin + " | " + millis());
+        // Serial.println("Fin des setLEDColor du dessin + dernier dessin voulu, on affiche: " + nomDessin + " | " + millis());
         FastLED.show(); // Allumer les LEDs
       }
 
@@ -133,7 +132,7 @@
     FastLED.clear();
   }
 
-    void imageFixe(String nomDessin){
+  void imageFixe(String nomDessin){
     stopAnimation(); // On arrête les animations si une joue
     retourApresAnimation = nomDessin; // On garde le dernier dessin pour y revenir après l'animation one-time
     typeDeRetour = "imageFixe";
@@ -149,6 +148,15 @@
     typeDeRetour = "gif";
     retourQteFrames = qteFrames;
     startAnimation(nomAnimation, qteFrames, animInterval, true);
+  }
+
+  // Joue une animation one-time, puis affiche une image fixe une fois l'animation terminée.
+  // Cela fonctionne en réglant les variables de retour avant de démarrer l'animation
+  // pour que `animationTick()` affiche `retourApresAnimation` quand l'animation est finie.
+  void animTransitionVers(String nomAnimTransition, int qteFrames, String nomImage) {
+    retourApresAnimation = nomImage;
+    typeDeRetour = "imageFixe";
+    startAnimation(nomAnimTransition, qteFrames, animInterval, false);
   }
 
   // Faire avancer l'animation de frame en frame
@@ -173,6 +181,8 @@
             gif(retourApresAnimation, retourQteFrames); // Revenir au gif de avant l'animation one-time
           } else { // Else on retourne a une image
             dessin(retourApresAnimation); // Revenir au dessin de avant l'animation one-time
+            Serial.println("RETOUR | Type de retour = ");
+            Serial.print(retourApresAnimation);
           }
           return; 
         }
@@ -186,6 +196,62 @@
     }
   }
 
+
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
+  /////////////////////// FONCTIONS DE DESSIN -- MODE MANUEL /////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////
+  /////////////////////// FONCTIONS DE DESSIN -- MODE GYRO  ////////////////////
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv //
+
+  // Tilt = "" - Normal -- FOR NOW image fixe
+  void gyroNormal(){
+    Serial.println("Gyro Normal");
+    // imageFixe("Fixed_Face_Smile");
+    imageFixe("Canard"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+  }
+  
+  // Forward - Gremlin -- Animation 1-time gremlin + Image fixe
+  void gyroForward(){
+    Serial.println("Gyro Forward");
+    // animation("gyro_gremlin_transition", 3); // PLACEHOLDER 3 frames pour l'instant
+    // imageFixe("gyro_gremlin");
+    animTransitionVers("chargement", 12, "Papillon"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+  }
+
+  // Backward - Laugh -- Animation infinie
+  void gyroBackward(){
+    Serial.println("Gyro Backward");
+    // gif("gyro_laugh", 3) // PLACEHOLDER 3 frames pour l'instant
+    gif("chargement", 12); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+  }
+
+  // Left - Wink -- Animation 1-time wink
+  void gyroLeft(){
+    Serial.println("Gyro Left");
+    // animation("Anim_Face_RightWink_Smile", 9);
+    animation("chargement", 12); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+  }
+
+  // Right - Confused -- Gif + image fixe pour y rester
+    void gyroRight(){
+    Serial.println("Gyro Right");
+    // animation("gyro_confused_transition", 3); // PLACEHOLDER 3 frames pour l'instant
+    // imageFixe("gyro_confused");
+    animTransitionVers("chargement", 12, "ThumbsUp"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+  }
+
+    // Le mode gyro n'a pas besoin de changer activeFace car cette variable est seulement pour changer le bouton associé (quand en mode manuel avec telephone)
+  // Le mode gyro commence avec Normal, et change selon le tilt (on call les fonctions dans Gyro_Tilting)
+  void modeGyro(){
+    gyroNormal();
+    Serial.println("MODE GYRO ACTIVÉ!");
+  }
+
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
+  /////////////////////// FONCTIONS DE DESSIN -- MODE GYRO /////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////
   //////////////// FONCTION DE CONVERSION COULEUR STRING -> CRGB  ////////////////
