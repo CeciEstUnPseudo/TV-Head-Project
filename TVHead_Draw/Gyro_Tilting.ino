@@ -2,15 +2,14 @@
 #include <MPU6050.h> // Easy sensor functions
 
 // Externes
-extern void gyroNormal();
-extern void gyroLeft();
-extern void gyroRight();
-extern void gyroForward();
-extern void gyroBackward();
+extern void handleGyroAction(String gyroMode, String tilt);
+extern String gyroMode;
+
+
 
 // Variables
 MPU6050 mpu; // MPU has a gyro, acceleration, & temperature module
-String tilt = "";
+String tilt = "normal";
 const int tiltThreshold = 10000; // So I don't have to write 5000 a lot of times and I can select from here the tilt value threshold to send my signals
 
 
@@ -37,16 +36,16 @@ void gyroDetection(){
     // Logic || Only 1 "tilt" at a time (I don't want forward-left, for example. Only the one I did first, so on les a tous dans 1 seul "if else if else if")
       // Check if any of the 4 possibilities (right, left, forward, backward) else put tilt as ""
 
-      // Right / Left
+      // Right / Left -- Take priority over forward/backward (most prone to being mistaken as the other two)
       if (accX < -tiltThreshold){ // Means its tilted to the right
         if (tilt == "right") return;
         tilt = "right";
-        gyroRight();
+        handleGyroAction(gyroMode, tilt);
         Serial.println("Tilted RIGHT");
       } else if(accX > tiltThreshold) { // Means its tilted to the left
         if (tilt == "left") return;
         tilt = "left";
-        gyroLeft();
+        handleGyroAction(gyroMode, tilt);
         Serial.println("Tilted LEFT");
       } 
 
@@ -54,19 +53,19 @@ void gyroDetection(){
       else if (accY < -tiltThreshold){ // Means its tilted forward
         if (tilt == "forward") return;
         tilt = "forward";
-        gyroForward();
+        handleGyroAction(gyroMode, tilt);
         Serial.println("Tilted FORWARD");
       } else if(accY > tiltThreshold){ // Means its tilted backward
         if (tilt == "backward") return;
         tilt = "backward";
-        gyroBackward();
+        handleGyroAction(gyroMode, tilt);
         Serial.println("Tilted BACKWARD");
 
-      } else if (tilt != ""){
-        if (tilt == "") return;
-        tilt = "";
-        gyroNormal();
-        Serial.println("Tilt OFF");
+      } else if (tilt != "normal"){
+        if (tilt == "normal") return;
+        tilt = "normal";
+        handleGyroAction(gyroMode, tilt);
+        Serial.println("Tilt OFF (normal)");
       }
 
     

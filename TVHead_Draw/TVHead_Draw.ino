@@ -1,5 +1,7 @@
   #include <FastLED.h>
   #include "SPIFFS.h"
+  #include <map>
+  #include <String>
 
   extern const int nbLEDTotal;
   extern const int pinData;
@@ -32,17 +34,9 @@
   unsigned long animInterval = 100; // en ms 50-100 est bon (100 est assez bon, 50 un peu vite)
   bool gifInfini = false;
 
-
-  void startupLEDs(){
-    // Si on veut une image par défaut
-    // Dessins manuels
-    // dessiner_papillon();
-    // dessiner_sourire();
-    // dessiner_canard();
-    // dessiner_thumbsUp();
-    // dessiner_thumbsUpCoeur();
-    // FastLED.show(); // Utiliser show après un dessin
-  }
+  // Variables pour le contrôle en mode gyro + voice commands pour changer de gyroMode
+  String gyroMode = "normal"; // PLACEHOLDER - QUAND LA VOICE RECOGNITION SERA AJOUTÉ, ON CHANGE ÇA POUR UNE VARIABLE EXTERN
+  extern String tilt; // Tilt qui vient de Gyro_Tilting
 
   ////////////////////////////////////////////////////////////////////////////////
   /////////////////////// FONCTIONS DE DESSIN -- MODE MANUEL /////////////////////
@@ -205,49 +199,52 @@
   /////////////////////// FONCTIONS DE DESSIN -- MODE GYRO  ////////////////////
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv //
 
-  // Tilt = "" - Normal -- FOR NOW image fixe
-  void gyroNormal(){
-    Serial.println("Gyro Normal");
-    // imageFixe("Fixed_Face_Smile");
-    imageFixe("Canard"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
-  }
-  
-  // Forward - Gremlin -- Animation 1-time gremlin + Image fixe
-  void gyroForward(){
-    Serial.println("Gyro Forward");
-    // animation("gyro_gremlin_transition", 3); // PLACEHOLDER 3 frames pour l'instant
-    // imageFixe("gyro_gremlin");
-    animTransitionVers("chargement", 12, "Papillon"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
+
+  //// Mes différentes fonctions de tilt + modes
+  /// !!!!!!!!!!!! UNE FOIS LA SOUDURE FAITE SUR LA GRANDE MATRICE, CHANGER LES FONCTIONS (imageFixe, animation, animTransitionVers, gif) POUR LEUR RÉELLE 
+  // Défaut 
+  void gyroNormal_Normal()  { imageFixe("Canard"); }
+  void gyroNormal_Left()    { animation("chargement", 12); }
+  void gyroNormal_Right()   { animTransitionVers("chargement", 12, "ThumbsUp"); }
+  void gyroNormal_Forward() { animTransitionVers("chargement", 12, "Papillon"); }
+  void gyroNormal_Backward(){ gif("chargement", 12); }
+
+  // Gremlin
+  void gyroGremlin_Forward() { animTransitionVers("chargement", 12, "Canard"); }
+
+
+  typedef void (*FonctionDeGyro)(); // Le pointer va tjrs donner quelque chose qui est une fonction void qui ne retourne aucune valeur
+
+
+  // --- Table de différents modes de gyro (qui contiennent chacun leurs différents "tilts") ---
+  map<String, map<String, ActionFunc>> modesTable = {
+    {"normal", { // Mode
+        {"normal",   gyroNormal_Normal}, // Tilt "normal" of mode "normal"
+        {"left",     gyroNormal_Left}, // Tilt "left" of mode "normal"
+        {"right",    gyroNormal_Right},
+        {"forward",  gyroNormal_Forward},
+        {"backward", gyroNormal_Backward}
+    }},
+    {"gremlin", {
+        {"forward",   gyroGremlin_Forward}, // This one only has an override for "forward", the other "tilts" will default to "normal mode"
+    }},
+    {"angry", {
+        {"normal",   gyroAngry_Normal},
+        {"left",     gyroAngry_Left},
+        {"right",    gyroAngry_Right}
+    }}
+  };
+
+
+  // Le "Dispatch" qui va décider selon le mode + tilt la fonction à faire // Appelé à chaque changement de tilt / gyroMode () quand le mode de la matrice est "gyro"
+  void handleGyroAction(String gyroMode, String tilt) {
+    if (modesTable.count(gyroMode) && modesTable[gyroMode].count(tilt)) {
+      modesTable[gyroMode][tilt]();  // Fait ce tilt de ce mode
+    } else {
+      modesTable["normal"][tilt]();  // Sinon fait le tilt actuel du mode par défaut
+    }
   }
 
-  // Backward - Laugh -- Animation infinie
-  void gyroBackward(){
-    Serial.println("Gyro Backward");
-    // gif("gyro_laugh", 3) // PLACEHOLDER 3 frames pour l'instant
-    gif("chargement", 12); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
-  }
-
-  // Left - Wink -- Animation 1-time wink
-  void gyroLeft(){
-    Serial.println("Gyro Left");
-    // animation("Anim_Face_RightWink_Smile", 9);
-    animation("chargement", 12); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
-  }
-
-  // Right - Confused -- Gif + image fixe pour y rester
-    void gyroRight(){
-    Serial.println("Gyro Right");
-    // animation("gyro_confused_transition", 3); // PLACEHOLDER 3 frames pour l'instant
-    // imageFixe("gyro_confused");
-    animTransitionVers("chargement", 12, "ThumbsUp"); // PLACEHOLDER EN ATTENDANT D'AVOIR SOLDER LA PLUS GRANDE MATRICE
-  }
-
-    // Le mode gyro n'a pas besoin de changer activeFace car cette variable est seulement pour changer le bouton associé (quand en mode manuel avec telephone)
-  // Le mode gyro commence avec Normal, et change selon le tilt (on call les fonctions dans Gyro_Tilting)
-  void modeGyro(){
-    gyroNormal();
-    Serial.println("MODE GYRO ACTIVÉ!");
-  }
 
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
   /////////////////////// FONCTIONS DE DESSIN -- MODE GYRO /////////////////////

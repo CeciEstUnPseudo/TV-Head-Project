@@ -25,8 +25,10 @@ CRGB maMatrixLEDs[nbLEDTotal]; // Tableau 1D pour FastLED
 // Externes
 extern void animationTick();
 extern void gyroSetup();
-extern void modeGyro();
 extern void gyroDetection();
+extern String tilt;
+extern String gyroMode;
+extern void handleGyroAction(String gyroMode, Stringtilt);
 
 
 //Hotspot telephone
@@ -50,7 +52,7 @@ void setup(){
   FastLED.addLeds<WS2812B, pinData,GRB>(maMatrixLEDs, nbLEDTotal);
   FastLED.setBrightness(10);
 
-  modeGyro(); // PLACEHOLDER DU MODE DE BASE -- Right now testing the Gyro mode
+  handleGyroAction(gyroMode, tilt);; // PLACEHOLDER DU MODE DE BASE -- Right now testing the Gyro mode
 }
 
   void loop() {
