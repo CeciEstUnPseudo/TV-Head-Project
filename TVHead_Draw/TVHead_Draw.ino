@@ -1,8 +1,6 @@
   #include <FastLED.h>
   #include "SPIFFS.h"
   #include <map>
-  #include <String>
-
   extern const int nbLEDTotal;
   extern const int pinData;
   extern const int matrixLength;
@@ -217,7 +215,7 @@
 
 
   // --- Table de différents modes de gyro (qui contiennent chacun leurs différents "tilts") ---
-  map<String, map<String, ActionFunc>> modesTable = {
+std::map<String, std::map<String, FonctionDeGyro>> modesTable = {
     {"normal", { // Mode
         {"normal",   gyroNormal_Normal}, // Tilt "normal" of mode "normal"
         {"left",     gyroNormal_Left}, // Tilt "left" of mode "normal"
@@ -228,11 +226,14 @@
     {"gremlin", {
         {"forward",   gyroGremlin_Forward}, // This one only has an override for "forward", the other "tilts" will default to "normal mode"
     }},
-    {"angry", {
-        {"normal",   gyroAngry_Normal},
-        {"left",     gyroAngry_Left},
-        {"right",    gyroAngry_Right}
-    }}
+    // Template doesnt exist (duh, used for templates) its functions like gyroTemplate_Normal were not written so it'll amount to an error in compiler if not commented
+    // {"template", { 
+        // {"normal",   gyroTemplate_Normal}, // Tilt "normal" of mode "template"
+        // {"left",     gyroTemplate_Left}, // Tilt "left" of mode "template"
+        // {"right",    gyroTemplate_Right}, // Tilt "right" of mode "template"
+        // {"forward",  gyroTemplate_Forward}, // Tilt "forward" of mode "template"
+        // {"backward", gyroTemplate_Backward} // Tilt "backward" of mode "template"
+    // }}
   };
 
 

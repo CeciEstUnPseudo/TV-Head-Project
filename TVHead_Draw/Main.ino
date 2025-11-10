@@ -28,7 +28,7 @@ extern void gyroSetup();
 extern void gyroDetection();
 extern String tilt;
 extern String gyroMode;
-extern void handleGyroAction(String gyroMode, Stringtilt);
+extern void handleGyroAction(String gyroMode, String tilt);
 
 
 //Hotspot telephone
