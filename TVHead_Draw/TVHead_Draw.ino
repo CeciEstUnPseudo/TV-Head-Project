@@ -33,7 +33,7 @@
   bool gifInfini = false;
 
   // Variables pour le contrôle en mode gyro + voice commands pour changer de gyroMode
-  String gyroMode = "normal"; // PLACEHOLDER - QUAND LA VOICE RECOGNITION SERA AJOUTÉ, ON CHANGE ÇA POUR UNE VARIABLE EXTERN
+  String gyroMode = "gremlin"; // PLACEHOLDER - QUAND LA VOICE RECOGNITION SERA AJOUTÉ, ON CHANGE ÇA POUR UNE VARIABLE EXTERN
   extern String tilt; // Tilt qui vient de Gyro_Tilting
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@
   void eteindre_matrix(){
     typeDeRetour = "";
     FastLED.clear();
-    Serial.println("Eteindre la matrice | " + millis());
+    // Serial.println("Eteindre la matrice | " + millis());
   }
 
   // Fonction de dessin (called par boutons, prends d'un CSV)
@@ -53,7 +53,6 @@
         dernierDessinVoulu = nomDessin;
       
       // nomDessin = le dessin à faire
-      Serial.println("Dessin de " + nomDessin + " | " + millis());
 
       // Aller chercher le bon .csv dans SPIFFS (dossier data/csv)
       File fichierDessin = SPIFFS.open("/csv/" + nomDessin + ".csv", "r");
@@ -105,7 +104,7 @@
     animFrameIndex = 0;
 
     // Dessiner le premier dessin directement
-    Serial.println("Start animation:" + animName + " with " + String(animQteFrames) + " frames, interval: " + String(animInterval) + "ms, infinite: " + String(gifInfini) + "|" + millis());
+    Serial.println("Start animation:" + animName + " with " + String(animQteFrames) + " frames, interval: " + String(animInterval) + "ms, infinite: " + String(gifInfini));
 
 
     dessin(animName + String(animFrameIndex));
@@ -116,7 +115,7 @@
 
   // Arrêter l'animation
   void stopAnimation() {
-    Serial.println("Stop animation! | " + millis());
+    //Serial.println("Stop animation! | " + millis());
     animPlaying = false;
     animStopped = true;
     animPrevMillis = 0;
@@ -158,8 +157,6 @@
     unsigned long tempsPasseeMillis = millis(); // Obtenir le temps actuel
     if (tempsPasseeMillis - animPrevMillis >= animInterval && animPlaying) { //Si interval écoulé
       animPrevMillis = tempsPasseeMillis; // Mettre à jour le temps du dernier tick
-      Serial.println("Tick animation! | " + millis());
-
       
       animFrameIndex++; // Index
       if (animFrameIndex >= animQteFrames) { // Si on a dépassé le nombre de frames
@@ -173,15 +170,15 @@
             gif(retourApresAnimation, retourQteFrames); // Revenir au gif de avant l'animation one-time
           } else { // Else on retourne a une image
             dessin(retourApresAnimation); // Revenir au dessin de avant l'animation one-time
-            Serial.println("RETOUR | Type de retour = ");
-            Serial.print(retourApresAnimation);
+            Serial.print("RETOUR | Type de retour = ");
+            Serial.println(retourApresAnimation);
           }
           return; 
         }
       }
 
       // Vu qu'on sort si: pas d'animation ou si on a fini l'animation, ici on peut dessiner la frame en toute sécurité
-      Serial.println("Commence dessin animation depuis animationTick! | " + millis());
+      // Serial.println("Commence dessin animation depuis animationTick! | " + millis());
       if (animPlaying){
         dessin(animName + String(animFrameIndex)); // Dessine la frame
       }
@@ -240,8 +237,10 @@ std::map<String, std::map<String, FonctionDeGyro>> modesTable = {
   // Le "Dispatch" qui va décider selon le mode + tilt la fonction à faire // Appelé à chaque changement de tilt / gyroMode () quand le mode de la matrice est "gyro"
   void handleGyroAction(String gyroMode, String tilt) {
     if (modesTable.count(gyroMode) && modesTable[gyroMode].count(tilt)) {
+      Serial.print("Combo modeGyro + tilt Trouvé || Mode = "); Serial.print(gyroMode); Serial.print(" | Tilt = "); Serial.println(tilt);
       modesTable[gyroMode][tilt]();  // Fait ce tilt de ce mode
     } else {
+      Serial.print("Combo modeGyro + tilt introuvable | Go to normal + ");Serial.println(tilt);
       modesTable["normal"][tilt]();  // Sinon fait le tilt actuel du mode par défaut
     }
   }

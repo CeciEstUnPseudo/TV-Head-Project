@@ -41,12 +41,10 @@ void gyroDetection(){
         if (tilt == "right") return;
         tilt = "right";
         handleGyroAction(gyroMode, tilt);
-        Serial.println("Tilted RIGHT");
       } else if(accX > tiltThreshold) { // Means its tilted to the left
         if (tilt == "left") return;
         tilt = "left";
         handleGyroAction(gyroMode, tilt);
-        Serial.println("Tilted LEFT");
       } 
 
       // Forward / Backward
@@ -54,18 +52,15 @@ void gyroDetection(){
         if (tilt == "forward") return;
         tilt = "forward";
         handleGyroAction(gyroMode, tilt);
-        Serial.println("Tilted FORWARD");
       } else if(accY > tiltThreshold){ // Means its tilted backward
         if (tilt == "backward") return;
         tilt = "backward";
         handleGyroAction(gyroMode, tilt);
-        Serial.println("Tilted BACKWARD");
 
       } else if (tilt != "normal"){
         if (tilt == "normal") return;
         tilt = "normal";
         handleGyroAction(gyroMode, tilt);
-        Serial.println("Tilt OFF (normal)");
       }
 
     
